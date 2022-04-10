@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
+import useFirebase from "../../hooks/useFirebase";
 
 const Header = () => {
+  const { user, handleSingOut } = useFirebase();
   return (
     <div className="header">
       <nav>
@@ -10,7 +12,12 @@ const Header = () => {
         <Link to="/products">Products</Link>
         <Link to="/orders">Orders</Link>
         <Link to="/register">Register</Link>
-        <Link to="/login">Login</Link>
+        <span>{user?.displayName && user.displayName}</span>
+        {user?.uid ? (
+          <button onClick={handleSingOut}>Sign Out</button>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
       </nav>
     </div>
   );
